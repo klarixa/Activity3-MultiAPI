@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-API Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="blob-container">
+        <div class="blob"
+            style="width: 400px; height: 400px; background: rgba(255, 182, 193, 0.4); top: 10%; left: 10%;"></div>
+        <div class="blob"
+            style="width: 500px; height: 500px; background: rgba(173, 216, 230, 0.4); top: 50%; right: 10%; animation-delay: -5s;">
+        </div>
+        <div class="blob"
+            style="width: 350px; height: 350px; background: rgba(255, 255, 224, 0.4); bottom: 10%; left: 30%; animation-delay: -10s;">
+        </div>
+        <div class="blob"
+            style="width: 450px; height: 450px; background: rgba(221, 160, 221, 0.4); top: 20%; right: 30%; animation-delay: -2s;">
+        </div>
+        <div class="blob"
+            style="width: 300px; height: 300px; background: rgba(144, 238, 144, 0.4); bottom: 20%; right: 40%; animation-delay: -7s;">
+        </div>
+    </div>
+    <div class="container">
+        <header class="hero">
+            <h1>🚀 Multi-API Dashboard</h1>
+            <p>Integrate superhero data, NASA space images, GIPHY, and movie information!</p>
+        </header>
+
+        <nav class="api-selector">
+            <button class="api-tab active" data-api="superhero">🦸 Superhero DB</button>
+            <button class="api-tab" data-api="nasa">🌌 NASA Space</button>
+            <button class="api-tab" data-api="giphy">🎬 GIPHY</button>
+            <button class="api-tab" data-api="tmdb">🍿 Movies (TMDB)</button>
+            <button class="api-tab" data-api="dashboard">📊 Dashboard</button>
+            <button class="api-tab" data-api="config">⚙️ API Config</button>
+        </nav>
+
+        <main class="main-content">
+            <!-- API Configuration Panel (as a tab) -->
+            <div id="config-panel" class="api-panel">
+                <h2>⚙️ API Configuration</h2>
+                <div class="api-config">
+                    <div class="config-item">
+                        <label for="superheroKey">Superhero API Key:</label>
+                        <input type="password" id="superheroKey" placeholder="Get from superheroapi.com">
+                        <button onclick="testSuperheroAPI()" class="test-btn">Test</button>
+                    </div>
+                    <div class="config-item">
+                        <label for="nasaKey">NASA API Key:</label>
+                        <input type="password" id="nasaKey" placeholder="Get from api.nasa.gov (or use DEMO_KEY)">
+                        <button onclick="testNASAAPI()" class="test-btn">Test</button>
+                    </div>
+                    <div class="config-item">
+                        <label for="giphyKey">GIPHY API Key:</label>
+                        <input type="password" id="giphyKey" placeholder="Get from developers.giphy.com">
+                        <button onclick="testGiphyAPI()" class="test-btn">Test</button>
+                    </div>
+                    <div class="config-item">
+                        <label for="tmdbKey">TMDB API Key:</label>
+                        <input type="password" id="tmdbKey" placeholder="Get from themoviedb.org">
+                        <button onclick="testTMDBAPI()" class="test-btn">Test</button>
+                    </div>
+                    <div class="config-status" id="configStatus">
+                        <p>Configure your API keys above to get started!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individual API Panels -->
+            <div id="superhero-panel" class="api-panel active">
+                <h2>🦸 Superhero Database</h2>
+                <div class="search-section">
+                    <input type="text" id="superheroSearch"
+                        placeholder="Search for a superhero (e.g., batman, superman)">
+                    <button onclick="searchSuperhero()" class="btn primary">Search Hero</button>
+                    <button onclick="getRandomSuperhero()" class="btn secondary">Random Hero</button>
+                </div>
+                <div id="superheroResults" class="results-area">
+                    <div class="placeholder">
+                        <h3>🦸‍♂️ Superhero Search</h3>
+                        <p>Search for your favorite superheroes and explore their powers, stats, and biography!</p>
+                        <ul>
+                            <li>🎯 Get detailed superhero information</li>
+                            <li>⚡ View power statistics</li>
+                            <li>📖 Read hero biographies</li>
+                            <li>🖼️ See character images</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="nasa-panel" class="api-panel">
+                <h2>🌌 NASA Space Images</h2>
+                <div class="search-section">
+                    <input type="date" id="nasaDate" class="btn"
+                        style="background: white; color: #4a5568; border: 2px solid #eef2ff; cursor: pointer;">
+                    <button onclick="getNASAImageByDate()" class="btn primary">📸 Get Image</button>
+                    <button onclick="getNASAImage()" class="btn secondary">🎲 Random Space Image</button>
+                    <button onclick="getTodaysNASAImage()" class="btn secondary">☀️ Today's Image</button>
+                </div>
+                <div id="nasaResults" class="results-area">
+                    <div class="placeholder">
+                        <h3>🌠 NASA Space Explorer</h3>
+                        <p>Discover amazing space images and learn about our universe!</p>
+                        <ul>
+                            <li>📅 Astronomy Picture of the Day</li>
+                            <li>🚀 Mars Rover photography</li>
+                            <li>🌌 Deep space imagery</li>
+                            <li>📚 Scientific explanations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="giphy-panel" class="api-panel">
+                <h2>🎬 GIPHY Search</h2>
+                <div class="search-section">
+                    <input type="text" id="giphySearch" placeholder="Search for GIFs (e.g., cats, funny, celebration)">
+                    <button onclick="searchGIFs()" class="btn primary">Search GIFs</button>
+                    <button onclick="getTrendingGIFs()" class="btn secondary">Trending</button>
+                    <button onclick="getRandomGIF()" class="btn tertiary">Random GIF</button>
+                </div>
+                <div id="giphyResults" class="results-area">
+                    <div class="placeholder">
+                        <h3>🎭 GIF Explorer</h3>
+                        <p>Find the perfect GIFs for any occasion!</p>
+                        <ul>
+                            <li>🔍 Search millions of GIFs</li>
+                            <li>📈 Discover trending content</li>
+                            <li>🎲 Find random surprises</li>
+                            <li>🎨 High-quality animations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tmdb-panel" class="api-panel">
+                <h2>🍿 Movie Database</h2>
+                <div class="search-section">
+                    <input type="text" id="tmdbSearch" placeholder="Search for movies (e.g., avengers, star wars)">
+                    <button onclick="searchMovies()" class="btn primary">Search Movies</button>
+                    <button onclick="getPopularMovies()" class="btn secondary">Popular Movies</button>
+                    <button onclick="getNowPlaying()" class="btn tertiary">Now Playing</button>
+                </div>
+                <div id="tmdbResults" class="results-area">
+                    <div class="placeholder">
+                        <h3>🎬 Movie Explorer</h3>
+                        <p>Discover movies, TV shows, and entertainment!</p>
+                        <ul>
+                            <li>🔍 Search vast movie database</li>
+                            <li>⭐ Get ratings and reviews</li>
+                            <li>🗓️ Release dates and info</li>
+                            <li>🎭 Cast and crew details</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-API Dashboard -->
+            <div id="dashboard-panel" class="api-panel">
+                <h2>📊 Multi-API Dashboard</h2>
+                <div class="dashboard-controls">
+                    <button onclick="createRandomDashboard()" class="btn primary">Generate Random Dashboard</button>
+                    <button onclick="createThemedDashboard()" class="btn secondary">Create Themed Content</button>
+                    <button onclick="clearDashboard()" class="btn tertiary">Clear Dashboard</button>
+                </div>
+                <div id="dashboardResults" class="dashboard-grid">
+                    <div class="dashboard-placeholder">
+                        <h3>🎯 Multi-API Integration</h3>
+                        <p>This dashboard combines data from all APIs to create rich, integrated experiences!</p>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <h4>🔄 Data Fusion</h4>
+                                <p>Combine superhero and movie data</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🎨 Rich Media</h4>
+                                <p>Mix images, GIFs, and text</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>⚡ Parallel Loading</h4>
+                                <p>Fetch multiple APIs simultaneously</p>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🎪 Interactive</h4>
+                                <p>Click to explore connections</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="multi-spinner">
+                    <div class="spinner spinner1"></div>
+                    <div class="spinner spinner2"></div>
+                    <div class="spinner spinner3"></div>
+                </div>
+                <p id="loadingMessage">Loading API data...</p>
+            </div>
+        </div>
+
+        <!-- Error Toast -->
+        <div id="errorToast" class="error-toast hidden">
+            <div class="toast-content">
+                <span class="toast-icon">⚠️</span>
+                <span id="errorMessage">Something went wrong!</span>
+                <button onclick="hideErrorToast()" class="toast-close">×</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>🚀 Powered by multiple APIs: Superhero API, NASA, GIPHY, and TMDB</p>
+            <p>Perfect for learning multi-API integration and authentication!</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
